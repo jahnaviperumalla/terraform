@@ -13,7 +13,7 @@ resource "aws_internet_gateway" "demogateway" {
 # Creating 1st subnet 
 resource "aws_subnet" "demosubnet1" {
   vpc_id                  = "${aws_vpc.demovpc.id}"
-  cidr_block             = "${var.subnet_cidr}"
+  cidr_block             = "${var.subnet1_cidr}"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1a"
 tags = {
@@ -23,13 +23,37 @@ tags = {
 # Creating 2nd subnet 
 resource "aws_subnet" "demosubnet2" {
   vpc_id                  = "${aws_vpc.demovpc.id}"
-  cidr_block             = "${var.subnet1_cidr}"
+  cidr_block             = "${var.subnet2_cidr}"
   map_public_ip_on_launch = true
   availability_zone = "us-east-1b"
 tags = {
     Name = "Demo subnet 2"
   }
 }
+
+# Creating 3rd subnet 
+resource "aws_subnet" "demosubnet3" {
+  vpc_id                  = "${aws_vpc.demovpc.id}"
+  cidr_block             = "${var.subnet3_cidr}"
+  map_public_ip_on_launch = true
+  availability_zone = "us-east-1a"
+tags = {
+    Name = "Demo subnet 3"
+  }
+}
+
+# Creating 4th subnet 
+resource "aws_subnet" "demosubnet4" {
+  vpc_id                  = "${aws_vpc.demovpc.id}"
+  cidr_block             = "${var.subnet4_cidr}"
+  map_public_ip_on_launch = true
+  availability_zone = "us-east-1b"
+tags = {
+    Name = "Demo subnet 4"
+  }
+}
+
+
 
 #Creating Route Table
 resource "aws_route_table" "publicroute" {
@@ -60,3 +84,14 @@ resource "aws_route_table_association" "rt2" {
     subnet_id = "${aws_subnet.demosubnet2.id}"
     route_table_id = "${aws_route_table.privateroute.id}"
 }
+
+resource "aws_route_table_association" "rt3" {
+    subnet_id = "${aws_subnet.demosubnet3.id}"
+    route_table_id = "${aws_route_table.publicroute.id}"
+}
+
+resource "aws_route_table_association" "rt4" {
+    subnet_id = "${aws_subnet.demosubnet4.id}"
+    route_table_id = "${aws_route_table.privateroute.id}"
+}
+
